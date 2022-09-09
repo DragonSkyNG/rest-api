@@ -72,9 +72,9 @@ export const deletePersonById = async (req, res) => {
     console.error(error);
   }
 };
-export const deletePeopleByLastname = async (req, res) => {
+export const deletePeople = async (req, res) => {
   try {
-    await personModel.deleteMany({ lastName: req.body.lastname });
+    await personModel.deleteMany({...req.body});
     res.status(200).send("Successfully deleted entries");
   } catch (error) {
     console.error(error);

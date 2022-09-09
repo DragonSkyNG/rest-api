@@ -7,7 +7,7 @@ import {
   getPersonById,
   updatePersonById,
   deletePersonById,
-  deletePeopleByLastname,
+  deletePeople,
 } from "../controller/personController.js";
 const router = express.Router();
 
@@ -18,6 +18,6 @@ router.get("/getAll", getPeople);
 router.get("/get/:id", getPersonById);
 router.put("/update/:id", updatePersonById);
 router.delete("/delete/:id", deletePersonById);
-router.delete("/delete", deletePeopleByLastname);
+router.delete("/delete", deletePeople);
 
 export default router;

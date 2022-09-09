@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  createPerson,
+  registerPerson,
+  loginPerson,
   getPeople,
   getPersonById,
   updatePersonById,
@@ -8,7 +9,8 @@ import {
 } from "../controller/personController";
 const router = express.Router();
 
-router.post("/addNew", createPerson);
+router.post("/register", registerPerson);
+router.post("login", loginPerson);
 router.get("/getAll", getPeople);
 router.get("/get/:id", getPersonById);
 router.put("/update/:id", updatePersonById);

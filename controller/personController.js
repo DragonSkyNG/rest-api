@@ -1,12 +1,19 @@
 import personModel from "../models/personModel";
 
 
-export const createPerson = async (req, res) => {
+export const registerPerson = async (req, res) => {
   try {
   } catch (error) {
     console.error(error);
   }
 };
+export const loginPerson = async (req,res)=>{
+    try {
+
+    } catch (error) {
+        console.error(error)
+    }
+}
 export const getPeople = async (req, res) => {
   try {
   } catch (error) {

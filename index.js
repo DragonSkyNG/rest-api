@@ -2,21 +2,30 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import personRoute from "./routes/personRoute.js";
+import passport from "passport";
+import personModel from "./models/personModel.js";
 
 const app = express();
 
 dotenv.config();
 
-app.use(express.json);
-
 const connectToDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("Connected to mongodb cluster successfully");
+    try {
+        await mongoose.connect(process.env.MONGO_URL);
+        console.log("Connected to mongodb cluster successfully");
   } catch (error) {
-    console.error(error);
-  }
+      console.error(error);
+    }
 };
+
+app.use(express.json);
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(personModel.createStrategy());
+
+passport.serializeUser(personModel.serializeUser());
+passport.deserializeUser(personModel.deserializeUser()); 
 
 app.use("/person", personRoute);
 

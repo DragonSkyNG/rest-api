@@ -29,6 +29,10 @@ const personSchema = new mongoose.Schema({
   city: {
     type: String,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model("person", personSchema);

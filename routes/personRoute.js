@@ -1,6 +1,9 @@
 import express from "express";
 import {
-  logout,
+  validatePersonSessionToken,
+  validateAdminSessionToken,
+} from "../authValidation/authValidation.js";
+import {
   getPeople,
   getPersonById,
   updatePersonById,
@@ -9,13 +12,10 @@ import {
 } from "../controller/personController.js";
 const router = express.Router();
 
-router.post("/register", registerPerson);
-router.post("/login", loginPerson);
-router.post("/logout", logout);
-router.get("/getAll", getPeople);
-router.get("/get/:id", getPersonById);
-router.put("/update/:id", updatePersonById);
-router.delete("/delete/:id", deletePersonById);
-router.delete("/delete", deletePeople);
+router.get("/getAll", validateAdminSessionToken, getPeople);
+router.get("/get/:id", validatePersonSessionToken, getPersonById);
+router.put("/update/:id", validatePersonSessionToken, updatePersonById);
+router.delete("/delete/:id", validatePersonSessionToken, deletePersonById);
+router.delete("/delete", validateAdminSessionToken, deletePeople);
 
 export default router;

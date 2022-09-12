@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import personRoute from "./routes/personRoute.js";
 import authRoute from "./routes/authRoute.js";
-
 const app = express();
 
 dotenv.config();
@@ -17,10 +17,9 @@ const connectToDB = async () => {
   }
 };
 
-app.use(express.urlencoded({ extended: true }));
-
-
+// app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/person", personRoute);
 app.use("/auth", authRoute);

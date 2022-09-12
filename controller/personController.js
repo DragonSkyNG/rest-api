@@ -19,9 +19,13 @@ export const getPersonById = async (req, res) => {
 export const updatePersonById = async (req, res) => {
   try {
     const updatedPerson = await personModel.findByIdAndUpdate(req.params.id, {
-      $set: { ...req.body, isAdmin: req.isAdmin ? req.body.isAdmin : "false" },
+      $set: {
+        ...req.body,
+        isAdmin: req.person.isAdmin ? req.body.isAdmin : "false",
+      },
     });
-    res.status(200).json(updatedPerson);
+    const { password, ...rest } = updatedPerson["_doc"];
+    res.status(200).json(rest);
   } catch (error) {
     console.error(error);
   }

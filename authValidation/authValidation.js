@@ -18,13 +18,12 @@ const validateAdmin = (req, res, next) => {
   }
 };
 
-export const validateAdminSessionToken = async (req, res, next) => {
+export const validateSessionToken = (req, res, next) => {
   const token = req.cookies.session_token;
 
   if (!token) {
     return res.status(401).send("Not authorized!");
   }
-
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(404).send("Token is invalid!");
@@ -32,28 +31,13 @@ export const validateAdminSessionToken = async (req, res, next) => {
     req.person = decoded;
     const person = await personModel.findById(req.person.id);
     if (req.person.isAdmin !== person.isAdmin) {
-      return res.clearCookie("session_token").status(403).send("Token is invalid!");
+      return res
+        .clearCookie("session_token")
+        .status(403)
+        .send("Token is invalid!");
     }
-    validateAdmin(req, res, next);
-  });
-};
-
-export const validatePersonSessionToken = async (req, res, next) => {
-  const token = req.cookies.session_token;
-
-  if (!token) {
-    return res.status(401).send("Not authorized!");
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-      return res.status(404).send("Token is invalid!");
-    }
-    req.person = decoded;
-    const person = await personModel.findById(req.person.id);
-    if (req.person.isAdmin !== person.isAdmin) {
-      return res.clearCookie("session_token").status(403).send("Token is invalid!");
-    }
-    validatePerson(req, res, next);
+    const adminRoute =
+      req.params.path === "/getAll" || req.params.path === "/delete";
+    adminRoute ? validateAdmin(req, res, next) : validatePerson(req, res, next);
   });
 };

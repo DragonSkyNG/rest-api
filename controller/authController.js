@@ -51,10 +51,5 @@ export const loginPerson = async (req, res) => {
   }
 };
 export const logoutPerson = async (req, res) => {
-  await req.logout((error) => {
-    if (error) {
-      return next(error);
-    }
-  });
-  res.send("Successfully loged out");
+  res.clearCookies("session_token").status(200).send("Successfully loged out");
 };
